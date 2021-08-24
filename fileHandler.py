@@ -12,8 +12,10 @@ def download_file(filename, url):
         for block in response.iter_content(4096):
             fout.write(block)
     file_path=Path(f'{filename}').parent.resolve()
-    print(file_path)
+    
     shutil.copy(f"{file_path}/{filename}",(f'{file_path}/pic/{filename}'))
+    file_buffer=Path(f'{filename}').resolve()
+    file_buffer.unlink()
 def download_if_not_exists(filename, url):
     """
     Download a URL to a file if the file
