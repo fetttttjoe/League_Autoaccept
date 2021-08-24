@@ -17,9 +17,11 @@ def getWindow(game_name,class_name=None):
     except pywintypes.error as error:
         #print(error)
         return 0
-def autoAccept(window,window_size,quit_key,game_name):
+def autoAccept(window_size,quit_key,game_name):
     file_name="accept_button.png"
-    while True and not keyboard.is_pressed(quit_key) and getWindow(game_name)!=0:
+    window=0
+    
+    while not keyboard.is_pressed(quit_key) and getWindow(game_name)!=0:
         print("----------------------------------")
         print(f"hold {quit_key} for at least 5 sek to end script")
         window=getWindow(game_name) 
@@ -51,9 +53,9 @@ def autoAccept(window,window_size,quit_key,game_name):
     if keyboard.is_pressed(quit_key):
         del window
         gc.collect()
-        return 1    
-    del window
-    gc.collect()
+        return 1 
+    
+    
     return 0
 
 def getPictureFilePath(file_name):
@@ -72,11 +74,11 @@ def getPictureFilePath(file_name):
         return p_filePath
 def main():
     enter=1
-    game_name="League of Legends"
     quit=0
+    game_name="League of Legends"
     quit_key=input("Please choose Key to quit script (in case you dont find it anymore): ")   
+    
     while quit==0:
-        print(f"enter {enter}")
         while enter == 1 and getWindow(game_name) != 0:
 
             window=getWindow(game_name)  
@@ -85,13 +87,13 @@ def main():
             if enter=='':
                 enter=1
             else:
-                quit=autoAccept(window,window_size,quit_key,game_name)
-        print(getWindow(game_name))
-        print(f"{game_name} is not running, Pls start game first")
+                quit=autoAccept(window_size,quit_key,game_name)
+            del window
+            gc.collect()
+        print(f"{game_name} is not running, Pls start game first and log into Client")
         enter=1
         pyautogui.sleep(10)
-        del window
-        gc.collect()
+        
     print("script endet")
 
         
