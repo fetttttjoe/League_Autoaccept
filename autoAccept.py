@@ -5,6 +5,7 @@ from pathlib import Path
 import keyboard
 import fileHandler as fH
 import cv2
+import gc
 def getWindow(game_name,class_name=None):
     
     try: 
@@ -44,8 +45,13 @@ def autoAccept(window,window_size,quit_key,game_name):
                 pyautogui.click(pyautogui.center(accept_Box))
             pyautogui.sleep(3)
     if keyboard.is_pressed(quit_key):
+        del window
+        gc.collect()
         return 1    
+    del window
+    gc.collect()
     return 0
+
 def getPictureFilePath(file_name):
     
     p_filePath = Path(__file__).parent.resolve()
@@ -80,6 +86,8 @@ def main():
         print(f"{game_name} is not running, Pls start game first")
         enter=1
         pyautogui.sleep(10)
+        del window
+        gc.collect()
     print("script endet")
 
         
