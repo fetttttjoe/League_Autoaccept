@@ -41,6 +41,7 @@ def autoAccept(window_size,quit_key,game_name):
             p_filePath = getPictureFilePath(file_name)
             p_filePath=Path(f'{p_filePath}/pic/{file_name}').resolve()
             #print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
+            window.set_foreground()
             if pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85) != None:
                 window.set_foreground()
                 print(p_filePath)
