@@ -32,23 +32,20 @@ def autoAccept(window,window_size,quit_key,game_name):
             #print(window.getWindowName())
 
             window_size=window.getWindowSize()
-            print("Currently in Lobby, waiting for match")
+            print("Currently in Client, waiting for Accept screen")
             
             p_filePath = getPictureFilePath(file_name)
             p_filePath=Path(f'{p_filePath}/pic/{file_name}').resolve()
-            print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.9)} ")
+            print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
             if pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85) != None:
                 window.set_foreground()
                 accept_Box = pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)
                 print(f"accept found in Box {accept_Box}")
-
-              
-
                 pyautogui.click(pyautogui.center(accept_Box))
             pyautogui.sleep(3)
-    if getWindow(game_name)==0:
-        return 0     
-    return 1
+    if keyboard.is_pressed(quit_key):
+        return 1    
+    return 0
 def getPictureFilePath(file_name):
     
     p_filePath = Path(__file__).parent.resolve()
@@ -67,21 +64,20 @@ def main():
     quit=0
     quit_key=input("Please choose Key to quit script (in case you dont find it anymore): ")   
     while quit==0:
-        if getWindow(game_name)==0:
-            print(f"{game_name} is not running, Pls start game first")
-            pyautogui.sleep(10)
-         
-        while enter==1 and getWindow(game_name)!=0:
+        print(f"enter {enter}")
+        while enter is 1 and getWindow(game_name) is not 0:
 
             window=getWindow(game_name)  
             window_size=window.getWindowSize() 
-            enter=input(f"Hit Enter to start Autoaccept if this is your Client size: {window_size[2],window_size[3]}")
-
+            enter=input(f"Hit Enter until your Client size matches: {window_size[2],window_size[3]}, maybe shake windows a bit. Hit random button if match")
             if enter=='':
-                quit=autoAccept(window,window_size,quit_key,game_name)
-            else:
                 enter=1
-
+            else:
+                quit=autoAccept(window,window_size,quit_key,game_name)
+        print(getWindow(game_name))
+        print(f"{game_name} is not running, Pls start game first")
+        enter=1
+        pyautogui.sleep(10)
     print("script endet")
 
         
