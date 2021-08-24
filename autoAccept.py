@@ -28,6 +28,8 @@ def autoAccept(window,window_size,quit_key,game_name):
         if(new_window_size[2]!=window_size[2]):
             pyautogui.sleep(10)
             print("Skipped, you are ingame!")
+            del window
+            gc.collect()
         else:
             #print(window.getWindowName())
 
@@ -44,6 +46,8 @@ def autoAccept(window,window_size,quit_key,game_name):
                 print(f"accept found in Box {accept_Box}")
                 pyautogui.click(pyautogui.center(accept_Box))
             pyautogui.sleep(3)
+            del window
+            gc.collect()
     if keyboard.is_pressed(quit_key):
         del window
         gc.collect()
