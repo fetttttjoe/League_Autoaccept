@@ -4,7 +4,7 @@ import pyautogui
 from pathlib import Path
 import keyboard
 import fileHandler as fH
-
+import cv2
 def getWindow(game_name,class_name=None):
     
     try: 
@@ -22,8 +22,7 @@ def autoAccept(window,window_size,quit_key,game_name):
         print("----------------------------------")
         print(f"hold {quit_key} for at least 5 sek to end script")
         window=getWindow(game_name) 
-        if window==0:
-            return 0 
+        
         new_window_size=window.getWindowSize() 
         if(new_window_size[2]!=window_size[2]):
             pyautogui.sleep(10)
@@ -36,9 +35,10 @@ def autoAccept(window,window_size,quit_key,game_name):
             
             p_filePath = getPictureFilePath(file_name)
             p_filePath=Path(f'{p_filePath}/pic/{file_name}').resolve()
-            print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
+            #print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
             if pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85) != None:
                 window.set_foreground()
+                print(p_filePath)
                 accept_Box = pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)
                 print(f"accept found in Box {accept_Box}")
                 pyautogui.click(pyautogui.center(accept_Box))
@@ -55,9 +55,11 @@ def getPictureFilePath(file_name):
     if Path(f"{p_filePath}/pic/{file_name}").exists():
         return p_filePath
     else:
-        fH.download_file("accept_Button.png","https://www.dropbox.com/s/ozcn8fpdfs0q8gg/accept_button.png?dl=1")
+        fH.download_file("accept_Button_example.png","https://www.dropbox.com/s/ozcn8fpdfs0q8gg/accept_button_example.png?dl=1")
+        while not Path(f"{p_filePath}/pic/{file_name}").exists():
+            print(f"Pls overwrite the example screenshot in folder {p_filePath}/pic and remove _example in file name")
+            pyautogui.sleep(10)
         return p_filePath
-    
 def main():
     enter=1
     game_name="League of Legends"
@@ -65,11 +67,11 @@ def main():
     quit_key=input("Please choose Key to quit script (in case you dont find it anymore): ")   
     while quit==0:
         print(f"enter {enter}")
-        while enter is 1 and getWindow(game_name) is not 0:
+        while enter == 1 and getWindow(game_name) != 0:
 
             window=getWindow(game_name)  
             window_size=window.getWindowSize() 
-            enter=input(f"Hit Enter until your Client size matches: {window_size[2],window_size[3]}, maybe shake windows a bit. Hit random button if match")
+            enter=input(f"Hit Enter until your Client size matches: {window_size[2],window_size[3]}, maybe shake windows a bit. Hit random button if match:")
             if enter=='':
                 enter=1
             else:
