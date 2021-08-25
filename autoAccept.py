@@ -20,24 +20,22 @@ def getWindow(game_name,class_name=None):
 def autoAccept(window_size,quit_key,game_name):
     file_name="accept_button.png"
     window=0
-    
+
     while not keyboard.is_pressed(quit_key) and getWindow(game_name)!=0:
         print("----------------------------------")
         print(f"hold {quit_key} for at least 5 sek to end script")
         window=getWindow(game_name) 
-        
-        new_window_size=window.getWindowSize() 
-        if(new_window_size[2]!=window_size[2]):
+
+        new_window_size=window.getWindowSize()
+        if (new_window_size[2]!=window_size[2]):
             pyautogui.sleep(10)
             print("Skipped, you are ingame!")
-            del window
-            gc.collect()
         else:
             #print(window.getWindowName())
 
             window_size=window.getWindowSize()
             print("Currently in Client, waiting for Accept screen")
-            
+
             p_filePath = getPictureFilePath(file_name)
             p_filePath=Path(f'{p_filePath}/pic/{file_name}').resolve()
             #print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
@@ -49,14 +47,14 @@ def autoAccept(window_size,quit_key,game_name):
                 print(f"accept found in Box {accept_Box}")
                 pyautogui.click(pyautogui.center(accept_Box))
             pyautogui.sleep(3)
-            del window
-            gc.collect()
+        del window
+        gc.collect()
     if keyboard.is_pressed(quit_key):
         del window
         gc.collect()
         return 1 
-    
-    
+
+
     return 0
 
 def getPictureFilePath(file_name):
@@ -65,14 +63,12 @@ def getPictureFilePath(file_name):
     #creates folder if doesnt exist
     Path(f"{p_filePath}/pic").mkdir(parents=True, exist_ok=True)
 
-    if Path(f"{p_filePath}/pic/{file_name}").exists():
-        return p_filePath
-    else:
+    if not Path(f"{p_filePath}/pic/{file_name}").exists():
         fH.download_file("accept_Button_example.png","https://www.dropbox.com/s/ozcn8fpdfs0q8gg/accept_button_example.png?dl=1")
         while not Path(f"{p_filePath}/pic/{file_name}").exists():
             print(f"Pls overwrite the example screenshot in folder {p_filePath}/pic and remove _example in file name")
             pyautogui.sleep(10)
-        return p_filePath
+    return p_filePath
 def main():
     enter=1
     quit=0
