@@ -4,8 +4,8 @@ import pyautogui
 from pathlib import Path
 import keyboard
 import fileHandler as fH
-import cv2
 import gc
+import os
 def getWindow(game_name,class_name=None):
     
     try: 
@@ -22,7 +22,8 @@ def autoAccept(window_size,quit_key,game_name):
     window=0
 
     while not keyboard.is_pressed(quit_key) and getWindow(game_name)!=0:
-        print("----------------------------------")
+        clear = lambda: os.system('cls')
+        clear()
         print(f"hold {quit_key} for at least 5 sek to end script")
         window=getWindow(game_name) 
 
@@ -39,14 +40,14 @@ def autoAccept(window_size,quit_key,game_name):
             p_filePath = getPictureFilePath(file_name)
             p_filePath=Path(f'{p_filePath}/pic/{file_name}').resolve()
             #print(f"inside else {window_size} {pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)} ")
-            window.set_foreground()
+            #window.set_foreground()
             if pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85) != None:
                 window.set_foreground()
                 print(p_filePath)
                 accept_Box = pyautogui.locateOnScreen(f'{p_filePath}',region=(window_size[0],window_size[1],window_size[2], window_size[3]),confidence=0.85)
                 print(f"accept found in Box {accept_Box}")
                 pyautogui.click(pyautogui.center(accept_Box))
-            pyautogui.sleep(3)
+            pyautogui.sleep(2)
         del window
         gc.collect()
     if keyboard.is_pressed(quit_key):
