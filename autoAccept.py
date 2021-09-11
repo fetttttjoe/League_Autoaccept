@@ -22,8 +22,7 @@ def autoAccept(window_size,quit_key,game_name):
     window=0
 
     while not keyboard.is_pressed(quit_key) and getWindow(game_name)!=0:
-        clear = lambda: os.system('cls')
-        clear()
+        clearConsole()
         print(f"hold {quit_key} for at least 5 sek to end script")
         window=getWindow(game_name) 
 
@@ -57,7 +56,10 @@ def autoAccept(window_size,quit_key,game_name):
 
 
     return 0
-
+def clearConsole():
+    clear = lambda: os.system('cls')
+    clear()
+    
 def getPictureFilePath(file_name):
     
     p_filePath = Path(__file__).parent.resolve()
@@ -88,6 +90,7 @@ def main():
                 quit=autoAccept(window_size,quit_key,game_name)
             del window
             gc.collect()
+        clearConsole()
         print(f"{game_name} is not running, Pls start game first and log into Client")
         enter=1
         pyautogui.sleep(10)
