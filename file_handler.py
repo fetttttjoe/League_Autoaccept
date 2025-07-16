@@ -12,7 +12,7 @@ def check_image_exists(image_path: Path) -> bool:
 def download_example_image(pic_folder: Path):
     """Downloads a high-quality example image to help the user."""
     # This URL points to the direct image, which is more reliable.
-    url = "https://i.imgur.com/cgvmSn7.png"
+    url = "https://i.imgur.com/o72ThX1.png"
     example_filename = "accept_button_EXAMPLE.png"
     save_path = pic_folder / example_filename
 
